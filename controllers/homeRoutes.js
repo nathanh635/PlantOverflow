@@ -32,8 +32,7 @@ router.get('/post/:id', async (req, res) => {
     const postData = await Post.findByPk(req.params.id, {
       include: [
         {
-          model: User,
-          attributes: ['name'],
+          all:true, nested: true,
         },
       ],
     });
@@ -46,6 +45,20 @@ router.get('/post/:id', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+router.post('/post/:id', withAuth, async (req, res) => {
+  try {
+    const newComment = await Comment.create({
+      text: req.body.text,
+      post_id: req.params.id,
+      user_id: req.session.user_id,
+    });
+
+    res.status(200).json(newComment);
+  } catch (err) {
+    res.status(400).json(err);
   }
 });
 
