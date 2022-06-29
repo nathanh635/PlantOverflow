@@ -23,28 +23,23 @@
       }
     }};
 
+    //------------------------------------------
+
     const upvoteHandler = async (event) => {
       event.preventDefault();
       if (event.target.hasAttribute('data-id')) {
         const id = event.target.getAttribute('data-id');
         const green_thumb_counter = event.target.getAttribute('data-upvotes');
 
-        const response = await fetch(`/post/${id}`, {
+        const response = await fetch(`/upvote/${id}`, {
           method: 'GET',
-          body: JSON.stringify({ text, id }),
+          body: JSON.stringify({ id }),
           headers: {
             'Content-Type': 'application/json',
           },
         });
         
-        let u = 0;
-        for (let i = 0; i< userarray.length; i++) {
-          if (userarray[i] = _________) {
-            u++
-
-          }
-        }
-        if (u>0) {
+        if (response=1) {
           green_thumb_counter --;
         } else {
           green_thumb_counter ++;
@@ -64,7 +59,42 @@
       } else {
         alert('Failed to upvote');
       }
-    }};
+    };
+
+    //---------------------
+
+    function handleSubmit (event) {
+
+      // Stop the form from reloading the page
+      event.preventDefault();
+    
+      // If there's no file, do nothing
+      if (!file.value.length) return;
+    
+      // Create a new FileReader() object
+      let reader = new FileReader();
+    
+      // Setup the callback event to run when the file is read
+      reader.onload = logFile;
+    
+      // Read the file
+      reader.readAsDataURL(file.files[0]);
+
+      let app = document.querySelector('#app');
+    
+      /**
+ * Log the uploaded file to the console
+ The file loaded event
+ */
+
+function logFile (event) {
+	let str = event.target.result;
+	let img = document.createElement('img');
+	img.src = str;
+	app.append(img);
+	console.log(str);
+}
+    }
 
   document
   .querySelector('.new-comment-form')
@@ -73,3 +103,7 @@
   document
   .querySelector('thumbup')
   .addEventListener('submit', upvoteHandler);
+
+  document
+  .querySelector('#upload')
+  .addEventListener('click', handleSubmit);
