@@ -1,9 +1,35 @@
+.blink {
+  animation: blinker 1s step-start infinite;
+  }
+  
+  @keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+  }
+
 body {
   background-image: url("../assets/images/tropical-mural-wallpaper-design_23-2148679938.webp");
 }
 
-header, .project:not(:last-child) {
-  border-bottom: 1px solid #ccc;
+header { 
+  color: #3ebb00;
+  height: 150px;
+  background-image: url("../assets/images/potted-plant.png");
+  border-bottom: 5px solid #ccc;
+}
+
+.title {
+  text-align: center;
+  background-color: #91ccec; 
+  border: 5px solid #3ebb00; 
+  width: 12vw;
+  height: 12vh;
+}
+
+h2 {
+  text-align: right;
+  font-size: 40px;
 }
 
 .no-button {
