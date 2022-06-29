@@ -39,9 +39,8 @@ class Comment extends Model {}
       defaultValue: DataTypes.NOW,
     },
     upvote_by: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: [],
     },
     green_thumb_counter: {
       type: DataTypes.INTEGER,

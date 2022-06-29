@@ -1,6 +1,5 @@
 // import parts from sequelize library
 const { Model, DataTypes } = require('sequelize');
-const { DataTypes } = require('sequelize/types');
 // import database connection
 const sequelize = require('../config/connection');
 
