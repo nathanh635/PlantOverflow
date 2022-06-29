@@ -1,13 +1,18 @@
+// import parts from sequelize library
 const { Model, DataTypes } = require('sequelize');
+// import parts from bcrypt
 const bcrypt = require('bcrypt');
+// import database connection
 const sequelize = require('../config/connection');
 
+// initialize User model by extending off Sequelize's Model class
 class User extends Model {
   checkPassword(loginPw) {
     return bcrypt.compareSync(loginPw, this.password);
   }
 }
 
+// set up fields and rule for User model
 User.init(
   {
     id: {
@@ -16,9 +21,17 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    password: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        len: [8],
+      },
     },
     email: {
       type: DataTypes.STRING,
@@ -28,12 +41,10 @@ User.init(
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
+    green_thumb_counter: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        len: [8],
-      },
+      defaultValue: 0,
     },
   },
   {
