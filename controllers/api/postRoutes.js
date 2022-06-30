@@ -33,26 +33,43 @@ router.put('/:id', withAuth, async (req, res) => {
       };
     });
 
-router.get('/upvotes/:id', withAuth, async (req, res) => {
+router.get('/upvote/:id', async (req, res) => {
   try {
-    const upvoteData = await Upvote.findOne(req.params.id, {
+    const upvoteData = await Upvote.findAll({
       WHERE: 
         {
           user_id: req.session.user_id,
-          post_id: req.params.id,
+          comment_id: req.body.comment_id,
         },
     });
+let numUpvotes;
 
     if (upvoteData.length>0) {
+      console.log(25);
     const upvote = upvoteData.get({ plain: true });
-
-      res.send(1);
+numUpvotes = 1
+      res.status(200).json(numUpvotes);
     } else {
-      res.send(0);
+      numUpvotes = 0;
+      res.send(numUpvotes);
     }
 
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+router.post('/upvote/:id', async (req, res) => {
+  try {
+    const newUpvote = await Upvote.create({
+     
+post_id: req.params.id,
+      user_id: req.body.user_id,
+    });
+
+    res.status(200).json(newUpvote);
+  } catch (err) {
+    res.status(400).json(err);
   }
 });
 

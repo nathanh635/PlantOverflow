@@ -28,12 +28,13 @@
     const upvoteHandler = async (event) => {
       event.preventDefault();
       if (event.target.hasAttribute('data-id')) {
-        const id = event.target.getAttribute('data-id');
+        const comment_id = event.target.getAttribute('data-id');
         const green_thumb_counter = event.target.getAttribute('data-upvotes');
+        const id = window.location.pathname.slice(6);
 
-        const response = await fetch(`/upvote/${id}`, {
+        const response = await fetch(`/api/upvote/${id}`, {
           method: 'GET',
-          body: JSON.stringify({ id }),
+          body: JSON.stringify({ comment_id }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -43,6 +44,14 @@
           green_thumb_counter --;
         } else {
           green_thumb_counter ++;
+          const upvotes = await fetch(`/api/upvote/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({ comment_id }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        })
+
         }
           const upvotes = await fetch(`/post/${id}`, {
             method: 'PUT',
@@ -61,49 +70,12 @@
       }
     };
 
-    //---------------------
 
-    function handleSubmit (event) {
-
-      // Stop the form from reloading the page
-      event.preventDefault();
-    
-      // If there's no file, do nothing
-      if (!file.value.length) return;
-    
-      // Create a new FileReader() object
-      let reader = new FileReader();
-    
-      // Setup the callback event to run when the file is read
-      reader.onload = logFile;
-    
-      // Read the file
-      reader.readAsDataURL(file.files[0]);
-
-      let app = document.querySelector('#app');
-    
-      /**
- * Log the uploaded file to the console
- The file loaded event
- */
-
-function logFile (event) {
-	let str = event.target.result;
-	let img = document.createElement('img');
-	img.src = str;
-	app.append(img);
-	console.log(str);
-}
-    }
 
   document
   .querySelector('.new-comment-form')
   .addEventListener('submit', newCommentHandler);
 
   document
-  .querySelector('thumbup')
+  .querySelector('#thumbup')
   .addEventListener('submit', upvoteHandler);
-
-  document
-  .querySelector('#upload')
-  .addEventListener('click', handleSubmit);

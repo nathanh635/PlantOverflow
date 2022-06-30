@@ -43,4 +43,8 @@ User.hasMany(Upvote, {
   foreignKey: 'user_id',
 });
 
+Comment.hasMany(Upvote, {
+  foreignKey: 'comment_id',
+});
+
 module.exports = { User, Post, Comment, Upvote };
