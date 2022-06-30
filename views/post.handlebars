@@ -11,7 +11,7 @@
     <div class="commentContents">
     <h5 class="author">Comment posted by {{comment.user.username}} on {{format_date comment.post_date}}</h5>
     <p class="commentText"> {{comment.response}}</p>
-    <i class="fas fa-thumbs-up icon-2x" id="thumbup" data-id="{{comment.id}}" data-upvotes="{{comment.green_thumb_counter}}"></i> <h5>{{comment.green_thumb_counter}} upvotes</h5>
+    <i class="fas fa-thumbs-up" id="thumbup" data-id="{{comment.id}}" data-upvotes="{{comment.green_thumb_counter}}"></i> <h5>{{comment.green_thumb_counter}} upvotes</h5>
         </div>
   </div>
   {{/each}}
@@ -28,3 +28,5 @@
     </form>
 
 
+
+<script src="../js/post.js"></script>
