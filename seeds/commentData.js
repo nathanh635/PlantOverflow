@@ -38,7 +38,6 @@ const commentData = [
     "user_id": "5",
     "post_id": "2",
     "post_date": "2022-06-29"
-    // need upvote by feature
     // need green_thumb_counter feature
   },
   {
@@ -46,7 +45,6 @@ const commentData = [
     "user_id": "6",
     "post_id": "2",
     "post_date": "2022-06-29"
-    // need upvote by feature
     // need green_thumb_counter feature
   },
   {
@@ -54,7 +52,6 @@ const commentData = [
     "user_id": "4",
     "post_id": "3",
     "post_date": "2022-06-28"
-    // need upvote by feature
     // need green_thumb_counter feature
   },
   {
@@ -62,7 +59,6 @@ const commentData = [
     "user_id": "5",
     "post_id": "3",
     "post_date": "2022-06-28"
-    // need upvote by feature
     // need green_thumb_counter feature
   },
   {
@@ -70,7 +66,6 @@ const commentData = [
     "user_id": "6",
     "post_id": "3",
     "post_date": "2022-06-28"
-    // need upvote by feature
     // need green_thumb_counter feature
   },
 ];

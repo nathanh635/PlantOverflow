@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['username'],
         },
       ],
     });
@@ -50,10 +50,10 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
-router.post('/post/:id', withAuth, async (req, res) => {
+router.post('/post/:id', async (req, res) => {
   try {
     const newComment = await Comment.create({
-      text: req.body.text,
+      response: req.body.response,
       post_id: req.params.id,
       user_id: req.session.user_id,
     });
