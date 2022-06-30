@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
 const { Upvote } = require('../../models');
+const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.post('/', withAuth, async (req, res) => {
@@ -19,13 +20,14 @@ router.post('/', withAuth, async (req, res) => {
 router.put('/:id', withAuth, async (req, res) => {
   // update a comment's green thumb score by its `id` value
   try {
+
     const comment = await Comment.update({
-      green_thumb_score: req.body.green_thumb_score,}, {
-      where: {
-        id: req.params.id,
-      },
+      green_thumb_counter: req.body.green_thumb_counter}, {
+      where: {id:req.params.id}
+
     })
-    res.status(200).json(tag);
+
+    res.status(200).json(comment);
   
    } catch (err) {
         // console.log(err);
@@ -36,35 +38,34 @@ router.put('/:id', withAuth, async (req, res) => {
 router.get('/upvote/:id', async (req, res) => {
   try {
     const upvoteData = await Upvote.findAll({
-      WHERE: 
+      where: 
         {
+         comment_id: req.params.id,
           user_id: req.session.user_id,
-          comment_id: req.body.comment_id,
         },
     });
-let numUpvotes;
 
-    if (upvoteData.length>0) {
-      console.log(25);
-    const upvote = upvoteData.get({ plain: true });
-numUpvotes = 1
-      res.status(200).json(numUpvotes);
+    let upvotetext;
+    if (upvoteData) {
+
+      res.status(200).json(1);
     } else {
-      numUpvotes = 0;
-      res.send(numUpvotes);
+      upvotetext = 0
+      res.status(200).json(0);
     }
-
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
+
   }
 });
 
-router.post('/upvote/:id', async (req, res) => {
+router.post('/upvote/:id', withAuth, async (req, res) => {
   try {
     const newUpvote = await Upvote.create({
-     
-post_id: req.params.id,
-      user_id: req.body.user_id,
+     post_id: req.body.post_id,
+     comment_id: req.params.id,
+      user_id: req.session.user_id,
     });
 
     res.status(200).json(newUpvote);

@@ -26,55 +26,67 @@
 
     //------------------------------------------
 
-    // const upvoteHandler = async (event) => {
-    //   event.preventDefault();
-    //   if (event.target.hasAttribute('data-id')) {
-    //     const comment_id = event.target.getAttribute('data-id');
-    //     const green_thumb_counter = event.target.getAttribute('data-upvotes');
-    //     const id = window.location.pathname.slice(6);
+    const upvoteHandler = async (event) => {
+      event.preventDefault();
+      //event.stopPropagation;
+      if (event.target.hasAttribute('data-id')) {
+        const id = event.target.getAttribute('data-id');
+        let green_thumb_counter = event.target.getAttribute('data-upvotes');
+        let post_id = window.location.pathname.slice(6);
 
-    //     const response = await fetch(`/api/upvote/${id}`, {
-    //       method: 'GET',
-    //       body: JSON.stringify({ comment_id }),
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     });
+
+        console.log(id)
+        console.log(green_thumb_counter)
+
+        async function getdata() {
+
+        const response = await fetch(`/api/posts/upvote/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+    
+        });
+
+        return response.json();
+      }
+      let data = getdata();
         
-    //     if (response=1) {
-    //       green_thumb_counter --;
-    //     } else {
-    //       green_thumb_counter ++;
-    //       const upvotes = await fetch(`/api/upvote/${id}`, {
-    //         method: 'POST',
-    //         body: JSON.stringify({ comment_id }),
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //     })
+        console.log(data)
+        if (data===1) {
+          return;
+        } else {
+          green_thumb_counter ++;
+          const upvotes = await fetch(`/api/posts/upvote/${id}`, {
+            method: 'POST',
+            body: JSON.stringify({ post_id }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        })
 
-    //     }
-    //       const upvotes = await fetch(`/post/${id}`, {
-    //         method: 'PUT',
-    //         body: JSON.stringify({ green_thumb_counter }),
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //     })
+
+          const upvoted_comment = await fetch(`/api/posts/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ green_thumb_counter }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+        })}
    
-    // };
-  
-    //   if (response.ok) {
-    //     document.location.replace(`/post/${id}`);
-    //   } else {
-    //     alert('Failed to upvote');
-    //   }
-    // };
+ 
+      // if (data) {
+      //   document.location.replace(`/post/${id}`);
+      // } else {
+      //   alert('Failed to upvote');
+      // }
+    }};
 
   document
   .querySelector('.new-comment-form')
   .addEventListener('submit', newCommentHandler);
 
-  // document
-  // .querySelector('#thumbup')
-  // .addEventListener('submit', upvoteHandler);
+  document
+  .querySelectorAll('#thumbup').forEach(item => {
+    item.addEventListener('click', upvoteHandler)
+  })  ;
