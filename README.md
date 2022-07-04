@@ -27,7 +27,7 @@ Through the terminal, initialize the application using the following:
 npm start
 ```
 
-This website can be accessed at 
+This website can be accessed at https://beautiful-glacier-bay-92549.herokuapp.com/.
 
 Below is a screenshot of the website. 
 
