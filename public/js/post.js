@@ -32,11 +32,9 @@
       if (event.target.hasAttribute('data-id')) {
         const id = event.target.getAttribute('data-id');
         let green_thumb_counter = event.target.getAttribute('data-upvotes');
+        let commenter_id = event.target.getAttribute('data-commenter');
         let post_id = window.location.pathname.slice(6);
 
-
-        console.log(id)
-        console.log(green_thumb_counter)
 
         async function getdata() {
 
@@ -47,13 +45,11 @@
           },
     
         });
+        let result = response;
+        console.log(result.status);
 
-        return response.json();
-      }
-      let data = getdata();
-        
-        console.log(data)
-        if (data===1) {
+
+        if (result.status === 418) {
           return;
         } else {
           green_thumb_counter ++;
@@ -65,15 +61,20 @@
             },
         })
 
+        const upvoted_comment = await fetch(`/api/posts/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ green_thumb_counter, commenter_id }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+      })
+      console.log("AAAARGH");
+      
+      }
 
-          const upvoted_comment = await fetch(`/api/posts/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify({ green_thumb_counter }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-        })}
-   
+}
+getdata();
+ 
  
       // if (data) {
       //   document.location.replace(`/post/${id}`);

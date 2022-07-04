@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
+const { User } = require('../../models');
 const { Upvote } = require('../../models');
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
@@ -18,12 +19,20 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 router.put('/:id', withAuth, async (req, res) => {
-  // update a comment's green thumb score by its `id` value
+  // update a comment's green thumb score by its `id` value.
+
   try {
 
     const comment = await Comment.update({
       green_thumb_counter: req.body.green_thumb_counter}, {
       where: {id:req.params.id}
+
+    })
+      // update user's green thumb score by `user_id` value
+
+    const user = await User.increment({
+      green_thumb_counter: +1}, {
+      where: {id:req.body.commenter_id}
 
     })
 
@@ -45,12 +54,11 @@ router.get('/upvote/:id', async (req, res) => {
         },
     });
 
-    let upvotetext;
-    if (upvoteData) {
+ 
+    if (upvoteData.length>0) {
 
-      res.status(200).json(1);
+      res.status(418).json(1);
     } else {
-      upvotetext = 0
       res.status(200).json(0);
     }
   } catch (err) {
@@ -95,3 +103,4 @@ router.delete('/:id', withAuth, async (req, res) => {
 });
 
 module.exports = router;
+
