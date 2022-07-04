@@ -20,8 +20,9 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   // update a comment's green thumb score by its `id` value.
+
   try {
-    console.log("works up to here2")
+
     const comment = await Comment.update({
       green_thumb_counter: req.body.green_thumb_counter}, {
       where: {id:req.params.id}
@@ -35,8 +36,6 @@ router.put('/:id', withAuth, async (req, res) => {
 
     })
 
-    })
-    console.log("this part is broken")
     res.status(200).json(comment);
   
    } catch (err) {

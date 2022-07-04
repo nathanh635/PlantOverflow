@@ -20,6 +20,7 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   // update a comment's green thumb score by its `id` value.
+  console.log("works up to here1")
   try {
     console.log("works up to here2")
     const comment = await Comment.update({
@@ -28,12 +29,10 @@ router.put('/:id', withAuth, async (req, res) => {
 
     })
       // update user's green thumb score by `user_id` value
-
+console.log("works up to here")
     const user = await User.increment({
       green_thumb_counter: +1}, {
       where: {id:req.body.commenter_id}
-
-    })
 
     })
     console.log("this part is broken")
@@ -104,4 +103,3 @@ router.delete('/:id', withAuth, async (req, res) => {
 });
 
 module.exports = router;
-
