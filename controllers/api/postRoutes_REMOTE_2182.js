@@ -20,6 +20,7 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   // update a comment's green thumb score by its `id` value.
+
   try {
 
     const comment = await Comment.update({
@@ -27,7 +28,7 @@ router.put('/:id', withAuth, async (req, res) => {
       where: {id:req.params.id}
 
     })
-      // update commenter's green thumb score by using their user ID value
+      // update user's green thumb score by `user_id` value
 
     const user = await User.increment({
       green_thumb_counter: +1}, {
@@ -42,8 +43,6 @@ router.put('/:id', withAuth, async (req, res) => {
         res.status(400).json(err);
       };
     });
-
-    //Get route to see if user has already upvoted a post
 
 router.get('/upvote/:id', async (req, res) => {
   try {
@@ -69,8 +68,6 @@ router.get('/upvote/:id', async (req, res) => {
   }
 });
 
-//Post route to create a new row in the upvote table
-
 router.post('/upvote/:id', withAuth, async (req, res) => {
   try {
     const newUpvote = await Upvote.create({
@@ -85,7 +82,6 @@ router.post('/upvote/:id', withAuth, async (req, res) => {
   }
 });
 
-//route to delete posts
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
