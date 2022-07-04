@@ -14,6 +14,8 @@ header {
   border: 5px solid #3ebb00; 
   width: 30vw;
   height: 16.5vh;
+  inline-size: 500px; 
+  overflow: hidden;
 }
 
 h2 {
@@ -66,3 +68,4 @@ h3, h4 {
 .custom-post-title-post {
   text-align: center;
 }
+
