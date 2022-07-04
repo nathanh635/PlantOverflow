@@ -58,3 +58,11 @@ h3 {
   font-size: 60px;
   cursor: pointer;
 }
+
+.custom-post-title-home {
+  text-align: left;
+}
+
+.custom-post-title-post {
+  text-align: center;
+}
