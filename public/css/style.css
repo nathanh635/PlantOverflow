@@ -21,7 +21,7 @@ h2 {
   font-size: 20px;
 }
 
-h3 {
+h3, h4 {
   color: #3ebb00;
   border: 1px solid green;
   border-radius: 10px;
@@ -57,4 +57,12 @@ h3 {
 #thumbup:hover {
   font-size: 60px;
   cursor: pointer;
+}
+
+.custom-post-title-home {
+  text-align: left;
+}
+
+.custom-post-title-post {
+  text-align: center;
 }
