@@ -3,7 +3,9 @@
     <p class="badge badge-success">Species: {{species}}</p>
   <p>{{description}}</p>
   <p>Posted by {{user.username}} on {{format_date post_date}}</p>
+  {{#if image_path}}
   <img src="{{image_path}}" alt="image associated with the post" width="50%">
+  {{/if}}
 
   {{#each comments as |comment| }}
 
