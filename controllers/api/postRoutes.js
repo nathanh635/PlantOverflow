@@ -35,8 +35,8 @@ router.put('/:id', withAuth, async (req, res) => {
 
     })
 
-    })
-    console.log("this part is broken")
+
+
     res.status(200).json(comment);
   
    } catch (err) {
