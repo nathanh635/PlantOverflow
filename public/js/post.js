@@ -35,9 +35,6 @@
         let post_id = window.location.pathname.slice(6);
 
 
-        console.log(id)
-        console.log(green_thumb_counter)
-
         async function getdata() {
 
         const response = await fetch(`/api/posts/upvote/${id}`, {
@@ -47,15 +44,13 @@
           },
     
         });
+        let result = response;
+        console.log(result.status);
 
-        return response.json();
-      }
-      let data = getdata();
-        
-        console.log(data)
-        if (data===1) {
-          return;
-        } else {
+
+        // if (result.status === 418) {
+        //   return;
+        // } else {
           green_thumb_counter ++;
           const upvotes = await fetch(`/api/posts/upvote/${id}`, {
             method: 'POST',
@@ -65,15 +60,19 @@
             },
         })
 
+        const upvoted_comment = await fetch(`/api/posts/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ green_thumb_counter }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+      })
+      
+      // }
 
-          const upvoted_comment = await fetch(`/api/posts/${id}`, {
-            method: 'PUT',
-            body: JSON.stringify({ green_thumb_counter }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-        })}
-   
+}
+getdata();
+ 
  
       // if (data) {
       //   document.location.replace(`/post/${id}`);

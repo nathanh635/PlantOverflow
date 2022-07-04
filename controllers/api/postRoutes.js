@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Post } = require('../../models');
+const { User } = require('../../models');
 const { Upvote } = require('../../models');
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
@@ -19,14 +20,24 @@ router.post('/', withAuth, async (req, res) => {
 
 router.put('/:id', withAuth, async (req, res) => {
   // update a comment's green thumb score by its `id` value
+  console.log("this part works too")
   try {
-
+console.log("this part works too")
     const comment = await Comment.update({
       green_thumb_counter: req.body.green_thumb_counter}, {
       where: {id:req.params.id}
 
     })
+    console.log("but not this part")
 
+      // update user's green thumb score by `user_id` value
+
+    const user = await User.update({
+      green_thumb_counter: green_thumb_counter++}, {
+      where: {user_id:req.session.user_id}
+
+    })
+    console.log("this part is broken")
     res.status(200).json(comment);
   
    } catch (err) {
@@ -45,12 +56,11 @@ router.get('/upvote/:id', async (req, res) => {
         },
     });
 
-    let upvotetext;
+ 
     if (upvoteData) {
 
-      res.status(200).json(1);
+      res.status(418).json(1);
     } else {
-      upvotetext = 0
       res.status(200).json(0);
     }
   } catch (err) {
