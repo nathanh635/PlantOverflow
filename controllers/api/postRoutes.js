@@ -19,22 +19,20 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 router.put('/:id', withAuth, async (req, res) => {
-  // update a comment's green thumb score by its `id` value
-  console.log("this part works too")
+  // update a comment's green thumb score by its `id` value.
+  console.log("works up to here1")
   try {
-console.log("this part works too")
+    console.log("works up to here2")
     const comment = await Comment.update({
       green_thumb_counter: req.body.green_thumb_counter}, {
       where: {id:req.params.id}
 
     })
-    console.log("but not this part")
-
       // update user's green thumb score by `user_id` value
-
-    const user = await User.update({
-      green_thumb_counter: green_thumb_counter++}, {
-      where: {user_id:req.session.user_id}
+console.log("works up to here")
+    const user = await User.increment({
+      green_thumb_counter: +1}, {
+      where: {id:req.body.commenter_id}
 
     })
     console.log("this part is broken")
@@ -57,7 +55,7 @@ router.get('/upvote/:id', async (req, res) => {
     });
 
  
-    if (upvoteData) {
+    if (upvoteData.length>0) {
 
       res.status(418).json(1);
     } else {
