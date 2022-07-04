@@ -11,6 +11,8 @@
     <div class="commentContents">
     <h5 class="author">Comment posted by {{comment.user.username}} on {{format_date comment.post_date}}</h5>
     <p class="commentText"> {{comment.response}}</p>
+
+    <!-- upvote icon with several properties to pass in if it is clicked-->
     <i class="fas fa-thumbs-up" id="thumbup" data-id="{{comment.id}}" data-upvotes="{{comment.green_thumb_counter}}" data-commenter="{{comment.user_id}}"></i> <h5>{{comment.green_thumb_counter}} upvotes</h5>
         </div>
   </div>

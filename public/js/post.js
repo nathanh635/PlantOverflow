@@ -1,14 +1,17 @@
 
-
+//To add a comment
   const newCommentHandler = async (event) => {
     event.preventDefault();
+    //get the comment ID based on the current URL path
     const id = window.location.pathname.slice(6);
 
-  
+  //get the comment text
     const response = document.querySelector('.form-input').value.trim();
 
+    //if textbox is not empty
     if (response) {
   
+      //fetch request to create the comment
       const res = await fetch(`/post/${id}`, {
         method: 'POST',
         body: JSON.stringify({ response }),
@@ -17,6 +20,7 @@
         },
       });
   
+      //if response is okay, reload the page
       if (res.ok) {
         document.location.replace(`/post/${id}`);
       } else {
@@ -25,10 +29,11 @@
     }};
 
     //------------------------------------------
-
+//to add upvotes
     const upvoteHandler = async (event) => {
       event.preventDefault();
       //event.stopPropagation;
+      //if they click on the upvote button
       if (event.target.hasAttribute('data-id')) {
         const id = event.target.getAttribute('data-id');
         let green_thumb_counter = event.target.getAttribute('data-upvotes');
@@ -37,6 +42,8 @@
 
 
         async function getdata() {
+
+          //run the fetch request to find out if they've upvoted in the past
 
         const response = await fetch(`/api/posts/upvote/${id}`, {
           method: 'GET',
@@ -48,9 +55,11 @@
         let result = response;
         console.log(result.status);
 
-
+        //check the status code to see if they've upvoted the comment previously
         if (result.status === 418) {
+          alert("You've already upvoted this comment!")
           return;
+          //if not, add the upvote to the upvote table
         } else {
           green_thumb_counter ++;
           const upvotes = await fetch(`/api/posts/upvote/${id}`, {
@@ -60,7 +69,7 @@
               'Content-Type': 'application/json',
             },
         })
-
+        //then add the upvote to the comment upvote score and the commenter's green thum score
         const upvoted_comment = await fetch(`/api/posts/${id}`, {
           method: 'PUT',
           body: JSON.stringify({ green_thumb_counter, commenter_id }),
@@ -68,25 +77,21 @@
             'Content-Type': 'application/json',
           },
       })
-      console.log("AAAARGH");
-      
+    
       }
-
 }
-getdata();
- 
- 
-      // if (data) {
-      //   document.location.replace(`/post/${id}`);
-      // } else {
-      //   alert('Failed to upvote');
-      // }
+        await getdata();
+        document.location.reload();
+
     }};
 
+
+    //event handler for comments
   document
   .querySelector('.new-comment-form')
   .addEventListener('submit', newCommentHandler);
 
+  //event handler for upvotes
   document
   .querySelectorAll('#thumbup').forEach(item => {
     item.addEventListener('click', upvoteHandler)
