@@ -29,6 +29,7 @@ npm start
 
 This website can be accessed at https://beautiful-glacier-bay-92549.herokuapp.com/.
 
-Below is a screenshot of the website. 
+Below are some screenshots of the deployed website. 
 
-![alt text](images/screenshot.png)
+![landing page](./public/assets/images/screenshot.PNG)
+![post page](./public/assets/images/screenshot2.PNG)
