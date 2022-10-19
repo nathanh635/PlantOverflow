@@ -1,97 +1,61 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
-const withAuth = require('../utils/auth');
+const path = require('path');
 
-router.get('/', async (req, res) => {
-  try {
+// GET Route for homepage
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
 
-    // Get all posts and JOIN with user data
-    const postData = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['username'],
-        },
-      ],
-    });
+// GET Route for contact page
+app.get('/contact', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/contact.html'))
+);
 
-    // Serialize data so the template can read it
+// GET Route for about me page
+app.get('/aboutme', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/aboutme.html'))
+);
 
-    const posts = postData.map((post) => post.get({ plain: true }));
+// GET Route for market insights page
+app.get('/marketinsights', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/marketinsights.html'))
+);
 
-    // Pass serialized data and session flag into template
-    res.render('homepage', { 
-      posts, 
-      logged_in: req.session.logged_in 
-    });
-  } catch (err) {
-    res.status(500).json(err);
+// GET Route for buying/selling page
+app.get('/buyingselling', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/buyingselling.html'))
+);
+
+
+// POST Route for submitting feedback
+app.post('/api/feedback', (req, res) => {
+  // Log that a POST request was received
+  console.info(`${req.method} request received to submit feedback`);
+
+  // Destructuring assignment for the items in req.body
+  const { email, feedbackType, feedback } = req.body;
+
+  // If all the required properties are present
+  if (email && feedbackType && feedback) {
+    // Variable for the object we will save
+    const newFeedback = {
+      email,
+      feedbackType,
+      feedback,
+      feedback_id: uuid(),
+    };
+
+    readAndAppend(newFeedback, './db/feedback.json');
+
+    const response = {
+      status: 'success',
+      body: newFeedback,
+    };
+
+    res.json(response);
+  } else {
+    res.json('Error in posting feedback');
   }
-});
-
-router.get('/post/:id', withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [
-        {
-          all:true, nested: true,
-        },
-      ],
-    });
-
-    const post = postData.get({ plain: true });
-    console.log(post);
-
-    res.render('post', {
-      ...post,
-      logged_in: req.session.logged_in
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-router.post('/post/:id', withAuth, async (req, res) => {
-  try {
-    const newComment = await Comment.create({
-      response: req.body.response,
-      post_id: req.params.id,
-      user_id: req.session.user_id,
-    });
-    res.status(200).json(newComment);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-// Use withAuth middleware to prevent access to route
-router.get('/profile', withAuth, async (req, res) => {
-  try {
-    // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
-    });
-
-    const user = userData.get({ plain: true });
-
-    res.render('profile', {
-      ...user,
-      logged_in: true
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-router.get('/login', (req, res) => {
-  // If the user is already logged in, redirect the request to another route
-  if (req.session.logged_in) {
-    res.redirect('/profile');
-    return;
-  }
-
-  res.render('login');
 });
 
 module.exports = router;
